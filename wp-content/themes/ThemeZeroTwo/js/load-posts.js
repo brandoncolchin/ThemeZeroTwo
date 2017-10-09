@@ -1,33 +1,3 @@
-// function find_page_number( element ) {
-//   element.find('span').remove();
-//   return parseInt( element.html() );
-// }
-//
-// 	$(document).on( 'click', 'ul.pagination a', function( event ) {
-// 		event.preventDefault();
-// page = find_page_number( $(this).clone() );
-//     $.ajax({
-// 		url : load_posts.ajaxurl,
-// 		type : 'post',
-// 		data : {
-// 			action : 'load_posts',
-//       query_vars : load_posts.query_vars,
-// 				page : page
-// 		},
-//     beforeSend: function() {
-//   		$('#main').find( '.blogPost' ).remove();
-//   		$('#content nav').remove();
-//   		$(document).scrollTop();
-//   		$('#main').append( '<div class="page-content" id="loader">Loading New Posts...</div>' );
-//   	},
-//   	success: function( html ) {
-//       alert(html);
-//   		$('#main #loader').remove();
-//   		$('#main').append( html );
-//   	}
-// 	});
-// 	})
-
 jQuery(document).ready(function($) {
 
   $(document).on('click','.loadMore',function(){
@@ -47,9 +17,15 @@ jQuery(document).ready(function($) {
       error: function(rep) {
         console.log(rep)
       },
+          beforeSend: function() {
+        		$('.lowerBlogRow').append( '<div class="page-content" id="loader">Loading New Posts...</div>' );
+            $('#loadMoreButton').hide();
+        	},
       success: function(rep) {
-        _self.data('page', newPage)
-        $('.lowerBlogRow').append(rep)
+        _self.data('page', newPage);
+        $('.lowerBlogRow #loader').remove();
+        $('.lowerBlogRow').append(rep);
+        $('#loadMoreButton').show();
       }
     })
   })
